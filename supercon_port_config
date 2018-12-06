@@ -1,0 +1,52 @@
+#!/bin/bash
+echo "This is script to configure your comport for the supercon badge."
+dmesg | awk '/tty/'
+echo "Input what USB the ftdi device is on. Eg USB0 -> 0. then press [ENTER]"
+read device
+
+if [ "$device" -eq "0" ]; then
+ echo "/tty/USB0"
+ sudo chmod 777 /dev/ttyUSB0
+ stty -F /dev/ttyUSB0 sane
+ stty -F /dev/ttyUSB0 19200  cs8 -cstopb -parenb -opost -inlcr
+ stty -F /dev/ttyUSB0
+ echo "should work. cat over your files into the badge"
+ port = "/dev/ttyUSB0"
+ exit 1
+elif [ "$device" -eq "1" ]; then 
+ echo "/tty/USB1"
+ sudo chmod 777 /dev/ttyUSB1
+ stty -F /dev/ttyUSB1 sane
+ stty -F /dev/ttyUSB1 19200  cs8 -cstopb -parenb -opost -inlcr
+ stty -F /dev/ttyUSB1
+ echo "should work. cat over your files into the badge"
+ port = "/dev/ttyUSB1"
+ exit 1
+elif [ "$device" -eq "2" ]; then 
+ echo "/tty/USB2"
+ sudo chmod 777 /dev/ttyUSB2
+ stty -F /dev/ttyUSB2 sane
+ stty -F /dev/ttyUSB2 19200  cs8 -cstopb -parenb -opost -inlcr
+ stty -F /dev/ttyUSB2
+ echo "should work. cat over your files into the badge"
+ port = "/dev/ttyUSB2"
+ exit 1
+elif [ "$device" -eq "3" ]; then 
+ echo "/tty/USB3"
+ sudo chmod 777 /dev/ttyUSB3
+ stty -F /dev/ttyUSB3 sane
+ stty -F /dev/ttyUSB3 19200  cs8 -cstopb -parenb -opost -inlcr
+ stty -F /dev/ttyUSB3
+ echo "should work. cat over your files into the badge"
+ port = "/dev/ttyUSB3"
+ exit 1
+else
+ echo "Didn't work mate. Rerun it and try again"
+ sh supercon_port_config
+ exit 1
+fi
+
+echo "type the file you want to transfer over and hit [ENTER]"
+read catfile
+cat $catfile > $port
+
